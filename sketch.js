@@ -61,31 +61,37 @@ function draw() {
   if(gameState === PLAY){
     //move the ground
     ground.velocityX = -4;
-    
-  }
-  else if(gameState === END){
-    //stop the ground
-    ground.velocityX = 0;
-  
-  }
-  
-  if(keyDown("space")&& trex.y >= 100) {
+    if(ground.x<0){
+     ground.x=ground.width/2; 
+    }
+    if(keyDown("space")&& trex.y >= 100) {
     trex.velocityY = -13;
   }
-  
-  trex.velocityY = trex.velocityY + 0.8
-  
-  if (ground.x < 0){
-    ground.x = ground.width/2;
-  }
-  
-  trex.collide(invisibleGround);
-  
-  //spawn the clouds
+     trex.velocityY = trex.velocityY + 0.8
+    //spawn the clouds
   spawnClouds();
   
   //spawn obstacles on the ground
   spawnObstacles();
+    if(obstaclesGroup.isTouching(trex))
+    {
+      gameState=END;}
+  }
+  else if(gameState === END){
+    //stop the ground
+    ground.velocityX = 0;
+  obstaclesGroup.setVelocityXEach(0);
+    cloudsGroup.setVelocityXEach(0);
+  }
+  
+ 
+  
+
+  
+  
+  trex.collide(invisibleGround);
+  
+  
   
   drawSprites();
 }
